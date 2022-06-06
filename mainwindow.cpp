@@ -236,5 +236,105 @@ bool MainWindow::saveAs()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("save spreadsheet"),".",
-                                                    tr("Spreadsheet files ("*.sp)"));
+                                                    tr("Spreadsheet files (*.sp)"));
+    if (fileName.isEmpty())
+        return false;
+    return saveFile(fileName);
+}
+
+void MainWindow::closeEvent(QcloseEvent *event)
+{
+    if (okToContinue()) {
+        writeSettings();
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
+void MainWindow::setCurrentFile(const QString &fileName)
+{
+    curFile = fileName;
+    setWindowModified(false);
+    QString shownName = tr("Untitled");
+    if (!curFile.isEmpty()){
+        showName = strippedName(curFile);
+        recentFiles.removeAll(curFile);
+        recentFiles.prepend(curFile);
+        updateRecentFileActions();
+    }
+
+    setWindowTitle(tr("%1[*] - %2").arg(shownName)
+                                .arg(tr("Spreadsheet")));
+}
+
+QString MainWindow::strippedName(const QString &fullFileName)
+{
+    return QFileInfo(fullFileName).fileName();
+}
+
+void MainWindow::updateRecentFileActions()
+{
+    QMutableStringListIterator i(recentFiles);
+
+    while (i.hasNext()){
+        if (!QFile::exists(i.next()))
+            i.remove();
+    }
+
+    for (int j = 0; j < MaxRecentFiles; ++j) {
+        if (j < recentFiles.count()) {
+            QString text = tr("&%1 %2")
+                            .arg(j + 1)
+                            .arg(strippedName(recentFiles[j]));
+            recentFileActions[j]->setText(text);
+            recentFileActions[j]->setData(recentFiles[j]);
+            recentFileActions[j]->setVisible(true);
+
+        } else {
+            recentFileActions[j]->setVisible(false);
+        }
+
+    }
+
+    separatorAction->setVisible(!recentFiles.isEmpty());
+}
+
+void MainWindow::openRecentFile()
+{
+    if (okToContinue()){
+        QAction *action = qobject_cast<QAction *>(sender());
+        if (action)
+            loadFile(action->data().toString());
+    }
+}
+
+void MainWindow::find()
+{
+    if (!findDialog) {
+        findDialog = new FindDialog(this);
+        connect(findDialog, SIGNAL(findNext(const QString &,
+                                Qt::CaseSensitivity)),
+                    spreadsheet, SLOT(findNext(const QString &,
+                            Qt::CaseSensitivity)));
+        connect(findDialog, SIGNAL(findPrevious(const QString &,
+                                Qt::CaseSensitivity)),
+                    spreadsheet, SLOT(findPrevious(const QString &,
+                            Qt::CaseSensitivity)));        
+    }
+
+    findDialog->show();
+    findDialog->raise();
+    findDialog->activateWindow();
+}
+
+void MainWindow::goTocell()
+{
+    GoToCellDialog *dialog = new GoToCellDialog(this);
+    if (dialog.exec()) {
+        QString str = dialog->lineEdit->text().toUpper();
+        spreadsheet->setCurrentCell(str.mid(1).toInt() - 1,
+                                    str[0].unicode() - 'A');
+    }
+    delete dialog;
 }
