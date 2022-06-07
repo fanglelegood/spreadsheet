@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QAction>
 #include <QLabel>
-#include <FindDialog>
+#include "FindDialog.h"
 
 class QAction
 class QLabel

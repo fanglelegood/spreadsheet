@@ -23,6 +23,8 @@ MainWindow::MainWindow()
 
     setWindowIcon(QIccon(":/images/icon.png"));
     setCurrentFile("");
+
+    setAttribute(Qt::WA_DeleteOnClose);
 }
 
 void MainWindow::createActions()
@@ -39,10 +41,15 @@ void MainWindow::createActions()
         connect(recentFileActions[i],SINGAL(triggered()),this, SLOT(openRecentFile()));
     }
 
+    closeAction = new QAction(tr("&Close"), this);
+    closeAction->setShortcut(QkeySequence::Close);
+    closeAction->setStatusTip(tr("close this window"));
+    connect(closeAction ,SIGNAL(triggered()), this, SLOT(close()));
+
     exitAction = new QAction(tr("E&xit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
     exitAction->setStatusTip(tr("Exit the application"));
-    connect(exitAction ,SIGNAL(triggered()), this, SLOT(close()));
+    connect(exitAction ,SIGNAL(triggered()), qApp, SLOT(closeALLWindows()));
 
     selectAllAction = new QAction(tr("&All"), this);
     selectAllAction->setShortcut(QKeySequence::SelectAll);
@@ -165,12 +172,18 @@ void MainWindow::spreadsheetModified()
     updateStatusBar();
 }
 
+// void MainWiondow::newFile()
+// {
+//     if (okToContinue()){
+//         spreadsheet->clear();
+//         setCurrentFile("");
+//     }
+// }
+
 void MainWiondow::newFile()
 {
-    if (okToContinue()){
-        spreadsheet->clear();
-        setCurrentFile("");
-    }
+    MainWindow *mainWin = new MainWindow;
+    mainWin->show();
 }
 
 bool MainWindow::okToContinue()
@@ -381,4 +394,47 @@ viod MainWindow::sort()
     SortDialog dialog(this);
     dialog.setSpreadsheet(spreadsheet);
     dialog.exec();
+}
+
+void MainWindow::about()
+{
+    QMessageBox::about(this, tr("About Spreadsheet"),
+            tr("<h2>Spreadsheet 1.1<h2>"
+                "<p>Copyright &copy; 2008 Software Inc."
+                "<p>Spreadsheet is a small application that"
+                "demonstrates QAction, QMainWindow, QMenuBar,"
+                "QStatusBar, QTableWidget, QToolBar, and many other"
+                "Qt classes."));
+}
+
+
+viod MainWindow::writeSettings()
+{
+    QSettings settings("Software Inc.", "Spreadsheet");
+
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("recentFiles", recentFiles);
+    settings.setValue("showGrid", showGridAction->isChecked());
+    settings.setValue("autoRecalc", autoRecalcAction->isChecked());
+    
+    settings.beginGroup("findDialog");
+    settings.setValue("matchCase", caseCheckBox->isChecked());
+    settings.setValue("searchBackward", backwardCheckBox->isChecked());
+    settings.endGroup();
+}
+
+void MainWindow::readSettings()
+{
+    QSettings setting("Software Inc.", "Spreadsheet");
+
+    restoreGeometry(settings.value("geometry").toByteArray());
+
+    recentFiles = settings.value("recentFiles").toStringList();
+    updateRecentFileActions();
+
+    bool showGrid = setting.value("showGrid", true).toBool();
+    showGridAction->setChecked(showGrid);
+
+    bool autoRecalc = settings.value("autoRecalc", true).toBoll();
+    autoRecalcAction->setChecked(autoRecalc);
 }
