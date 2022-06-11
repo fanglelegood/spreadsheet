@@ -19,9 +19,9 @@ MainWindow::MainWindow()
 
     readSettings();
 
-    findDialog = 0；
+    findDialog = 0;
 
-    setWindowIcon(QIccon(":/images/icon.png"));
+    setWindowIcon(QIcon(":/images/icon.png"));
     setCurrentFile("");
 
     setAttribute(Qt::WA_DeleteOnClose);

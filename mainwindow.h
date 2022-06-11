@@ -6,17 +6,17 @@
 #include <QLabel>
 #include "FindDialog.h"
 
-class QAction
-class QLabel
+class QAction;
+class QLabel;
 class FindDialog;
 class Spreadsheet;
 
-class mainwindow : public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    mainwindow 
+    MainWindow();
 
 protected:
     void closeEvent(QCloseEvent *event);
