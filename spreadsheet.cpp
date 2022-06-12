@@ -39,7 +39,7 @@ Cell *Spreadsheet::cell(int row, int column) const
     return static_cast<Cell *>(item(row, column));
 }
 
-QString spreadsheet::text(int row, int column) const
+QString Spreadsheet::text(int row, int column) const
 {
     Cell *c = cell(row, column);
     if (c) {
@@ -56,14 +56,14 @@ QString Spreadsheet::formula(int row, int column) const
         return c-> formula();
     }
     else {
-        return "",
+        return "";
     }
 }
 
 void Spreadsheet::setFormula(int row, int column,
                             const QString &formula)
 {
-    Cell *c = cell (row, columu);
+    Cell *c = cell (row, column);
     if (!c){
         c = new Cell;
         setItem(row, column, c);
@@ -127,8 +127,8 @@ bool Spreadsheet::readFile(const QString &fileName)
                             .arg(file.errorString()));
         return false;
     }
-    QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_4_3);
+    QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_4_3);
 
     quint32 magic;
     in >> magic;
@@ -153,7 +153,7 @@ bool Spreadsheet::readFile(const QString &fileName)
   
 }
 
-void Spreadsheet:cut()
+void Spreadsheet::cut()
 {
     copy();
     del();
@@ -186,7 +186,7 @@ QTableWidgetSelectionRange Spreadsheet::selectedRange() const
     return ranges.first();
 }
 
-viod Spreadsheet::paste()
+void Spreadsheet::paste()
 {
     QTableWidgetSelectionRange range = selectedRange();
     QString str = QApplication::clipboard()->text();
@@ -195,7 +195,7 @@ viod Spreadsheet::paste()
     int numColumns = rows.first().count('\t') + 1;
 
     if (range.rowCount() * range.columnCount() != 1
-            && (range.rowCout() != numRows
+            && (range.rowCount() != numRows
                     || range.columnCount() != numColumns))
                     {
                         QMessageBox::information(this, tr("Spreadsheet"),
@@ -258,7 +258,7 @@ void Spreadsheet::findNext(const QString &str, Qt::CaseSensitivity cs)
        column = 0;
        ++row;
     }
-    QApplication:beep();
+    QApplication::beep();
 }
 
 void Spreadsheet::findPrevious(const QString &str, Qt::CaseSensitivity cs)
@@ -281,12 +281,12 @@ void Spreadsheet::findPrevious(const QString &str, Qt::CaseSensitivity cs)
        column = ColumnCount - 1;
        --row;
     }
-    QApplication:beep();     
+    QApplication::beep();     
 }
 
 void Spreadsheet::recalculate()
 {
-    for (int row = 0; row < RowCont; ++row)
+    for (int row = 0; row < RowCount; ++row)
     {
         for (int column = 0; column < ColumnCount; ++column)
         {
@@ -305,7 +305,7 @@ void Spreadsheet::setAutoRecalculate(bool recalc)
         recalculate();
 }
 
-viod Spread::sort(const SpreadsheetCompare &compare)
+void Spreadsheet::sort(const SpreadsheetCompare &compare)
 {
     QList<QStringList> rows;
     QTableWidgetSelectionRange range = selectedRange();
@@ -313,13 +313,15 @@ viod Spread::sort(const SpreadsheetCompare &compare)
 
     for (i= 0; i< range.rowCount(); ++i){
         QStringList row;
-        for (int j = 0; j < range.columnCount; ++j)
-            row.apped(formula(range.topRow() +i,
+        for (int j = 0; j < range.columnCount(); ++j)
+            row.append(formula(range.topRow() + i,
                             range.leftColumn() + j));
         rows.append(row);
-    qStableSort(rows.begin(), rows.end(), compare);
     }
-    for ( i = 0; i < range.rowCount; ++i)
+
+    qStableSort(rows.begin(), rows.end(), compare);
+
+    for ( i = 0; i < range.rowCount(); ++i)
     {
         for (int j = 0; j < range.columnCount(); ++j)
         {
@@ -336,11 +338,11 @@ viod Spread::sort(const SpreadsheetCompare &compare)
 bool SpreadsheetCompare::operator()(const QStringList &row1,
                                     const QStringList &row2) const
 {
-    for (int i = 0; i< Keycount; ++i) {
+    for (int i = 0; i< KeyCount; ++i) {
         int column = keys[i];
         if (column != -1) {
             if (row1[column] != row2[column]) {
-                if (ascengding[i]) {
+                if (ascending[i]) {
                     return row1[column] < row2[column];
                 }else {
                     return row1[column] > row2[column];
