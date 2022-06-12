@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    // QApplication app(argc, argv);
 
     // QSplashScreen *splash = new QSplashScreen;
     // splash->setPixmap(QPixmap(":/images/splash.png"));
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
     // splash->showMessage(QObject::tr("setting up the main window..."),
     //                     topRight, Qt::white);
-    MainWindow mainWin;
+    // MainWindow *mainWin = new MainWindow;
 
 //     splash->showMessage(QObject::tr("loading modules..."),
 //                         topRight, Qt::white);
@@ -24,9 +24,18 @@ int main(int argc, char *argv[])
 //             topRight, Qt::white);
 //     establishConnections();
 
-    mainWin.show();
+    // mainWin->show();
     // splash->finish(&mainwin);
     // delete splash;
     
+    // return app.exec();
+    // QApplication app(argc, argv);
+    // MainWindow mainWin;
+    // mainWin.show();
+    // return app.exec();
+
+    QApplication app(argc, argv);
+    MainWindow *mainWin = new MainWindow;
+    mainWin->show();
     return app.exec();
 }

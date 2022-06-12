@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QAction>
 #include <QLabel>
-#include "FindDialog.h"
+#include "finddialog.h"
 
 QT_BEGIN_NAMESPACE
 class QAction;
