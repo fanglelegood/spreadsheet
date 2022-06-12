@@ -3,17 +3,19 @@
 
 #include <QTableWidget>
 
+QT_BEGIN_NAMESPACE
 class Cell;
 class SpreadsheetCompare;
+QT_END_NAMESPACE
 
 class Spreadsheet : public QTableWidget
 {
     Q_OBJECT
 
-public：
+public:
     Spreadsheet(QWidget *parent = 0);
 
-    bool autoRecalculate() const {retrun autoRecalc; }
+    bool autoRecalculate() const {return autoRecalc; }
     QString currentLocation() const;
     QString currentFormula() const;
     QTableWidgetSelectionRange selectedRange() const;
@@ -37,7 +39,7 @@ signals:
 private slots:
     void somethingChanged();
 private:
-    enum { MagicNumber = 0x7F51C883, ROWCount = 999, ColumnCount = 26};
+    enum { MagicNumber = 0x7F51C883, RowCount = 999, ColumnCount = 26};
 
     Cell *cell(int row, int column) const;
     QString text(int row, int column) const;

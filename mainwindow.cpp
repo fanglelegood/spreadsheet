@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QtWidgets>
 
 #include "finddialog.h"
 #include "gotocelldialog.h"
@@ -38,11 +38,11 @@ void MainWindow::createActions()
     for(int i = 0; i< MaxRecentFiles; i++){
         recentFileActions[i] = new QAction(this);
         recentFileActions[i]->setVisible(false);
-        connect(recentFileActions[i],SINGAL(triggered()),this, SLOT(openRecentFile()));
+        connect(recentFileActions[i],SIGNAL(triggered()),this, SLOT(openRecentFile()));
     }
 
     closeAction = new QAction(tr("&Close"), this);
-    closeAction->setShortcut(QkeySequence::Close);
+    closeAction->setShortcut(QKeySequence::Close);
     closeAction->setStatusTip(tr("close this window"));
     connect(closeAction ,SIGNAL(triggered()), this, SLOT(close()));
 
@@ -137,14 +137,14 @@ void MainWindow::createToolBars()
     editToolBar->addAction(pasteAction);
     editToolBar->addSeparator();
     editToolBar->addAction(findAction);
-    edieToolBar->addAction(goToCellAction);
+    editToolBar->addAction(goToCellAction);
 }
 
 void MainWindow::createStatusBar()
 {
     locationLabel = new QLabel(" W999 ");
-    location->setAlignment(Qt::AlignHCenter);
-    location->setMinimumSize(locationLabel->sizeHint());
+    locationLabel->setAlignment(Qt::AlignHCenter);
+    locationLabel->setMinimumSize(locationLabel->sizeHint());
 
     formulaLabel = new QLabel;
     formulaLabel->setIndent(3);
@@ -180,7 +180,7 @@ void MainWindow::spreadsheetModified()
 //     }
 // }
 
-void MainWiondow::newFile()
+void MainWindow::newFile()
 {
     MainWindow *mainWin = new MainWindow;
     mainWin->show();
@@ -216,7 +216,7 @@ void MainWindow::open()
 bool MainWindow::loadFile(const QString &fileName)
 {
     if (!spreadsheet->readFile(fileName)){
-        statusBar()->showMessage(tr("Loading canceled")), 2000);
+        statusBar()->showMessage(tr("Loading canceled"), 2000);
         return false;
     }
 
@@ -255,7 +255,7 @@ bool MainWindow::saveAs()
     return saveFile(fileName);
 }
 
-void MainWindow::closeEvent(QcloseEvent *event)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (okToContinue()) {
         writeSettings();
@@ -271,7 +271,7 @@ void MainWindow::setCurrentFile(const QString &fileName)
     setWindowModified(false);
     QString shownName = tr("Untitled");
     if (!curFile.isEmpty()){
-        showName = strippedName(curFile);
+        shownName = strippedName(curFile);
         recentFiles.removeAll(curFile);
         recentFiles.prepend(curFile);
         updateRecentFileActions();
@@ -341,40 +341,39 @@ void MainWindow::find()
     findDialog->activateWindow();
 }
 
-void MainWindow::goTocell()
+void MainWindow::goToCell()
 {
-    GoToCellDialog *dialog = new GoToCellDialog(this);
+    GoToCellDialog dialog(this);
     if (dialog.exec()) {
-        QString str = dialog->lineEdit->text().toUpper();
+        QString str = dialog.lineEdit->text().toUpper();
         spreadsheet->setCurrentCell(str.mid(1).toInt() - 1,
                                     str[0].unicode() - 'A');
     }
-    delete dialog;
 }
 
-// viod MainWindow::sort()
-// {
-//     SortDialog dialog(this);
-//     QTableWidgetSelectionRange range = spreadsheet->selectedRange();
-//     dialog.setColumnRange('A' + range.leftColumn(),
-//                           'A' + range.rightColumn());
-//     if (dialog.exec()){
-//         SpreadsheetCompare compare;
-//         compare.keys[0] = 
-//                     dialog.primaryColumnCombo->currentIndex();
-//         compare.keys[1] = 
-//                     dialog.secondaryColumnCombo->currentIndex() - 1;
-//         compare.keys[2] =
-//                     dialog.tertiaryColumnCombo->currentIndex() -1;
-//         compare.ascending[0] =
-//                     (dialog.primaryOrderCombo->currentIndex() == 0);
-//         compare.ascending[1] =
-//                     (dialog.secondaryOrderCombo->currentIndex() == 0);
-//         compare.ascending[2] =
-//                     (dialog.tertiaryOrderCombp->currentIndex() == 0);
-//         spreadsheet->sort(compare);
-//     }
-// }
+void MainWindow::sort()
+{
+    SortDialog dialog(this);
+    QTableWidgetSelectionRange range = spreadsheet->selectedRange();
+    dialog.setColumnRange('A' + range.leftColumn(),
+                          'A' + range.rightColumn());
+    if (dialog.exec()){
+        SpreadsheetCompare compare;
+        compare.keys[0] = 
+                    dialog.primaryColumnCombo->currentIndex();
+        compare.keys[1] = 
+                    dialog.secondaryColumnCombo->currentIndex() - 1;
+        compare.keys[2] =
+                    dialog.tertiaryColumnCombo->currentIndex() -1;
+        compare.ascending[0] =
+                    (dialog.primaryordercombo->currentIndex() == 0);
+        compare.ascending[1] =
+                    (dialog.secondaryOrderCombo->currentIndex() == 0);
+        compare.ascending[2] =
+                    (dialog.tertiaryOrderCombo->currentIndex() == 0);
+        spreadsheet->sort(compare);
+    }
+}
 
 
 // viod MainWindow::sort()
@@ -389,12 +388,12 @@ void MainWindow::goTocell()
 // }
 
 
-viod MainWindow::sort()
-{
-    SortDialog dialog(this);
-    dialog.setSpreadsheet(spreadsheet);
-    dialog.exec();
-}
+// void MainWindow::sort()
+// {
+//     SortDialog dialog(this);
+//     dialog.setSpreadsheet(spreadsheet);
+//     dialog.exec();
+// }
 
 void MainWindow::about()
 {
@@ -408,7 +407,7 @@ void MainWindow::about()
 }
 
 
-viod MainWindow::writeSettings()
+void MainWindow::writeSettings()
 {
     QSettings settings("Software Inc.", "Spreadsheet");
 
@@ -417,24 +416,24 @@ viod MainWindow::writeSettings()
     settings.setValue("showGrid", showGridAction->isChecked());
     settings.setValue("autoRecalc", autoRecalcAction->isChecked());
     
-    settings.beginGroup("findDialog");
-    settings.setValue("matchCase", caseCheckBox->isChecked());
-    settings.setValue("searchBackward", backwardCheckBox->isChecked());
-    settings.endGroup();
+    // settings.beginGroup("findDialog");
+    // settings.setValue("matchCase", caseCheckBox->isChecked());
+    // settings.setValue("searchBackward", backwardCheckBox->isChecked());
+    // settings.endGroup();
 }
 
 void MainWindow::readSettings()
 {
-    QSettings setting("Software Inc.", "Spreadsheet");
+    QSettings settings("Software Inc.", "Spreadsheet");
 
     restoreGeometry(settings.value("geometry").toByteArray());
 
     recentFiles = settings.value("recentFiles").toStringList();
     updateRecentFileActions();
 
-    bool showGrid = setting.value("showGrid", true).toBool();
+    bool showGrid = settings.value("showGrid", true).toBool();
     showGridAction->setChecked(showGrid);
 
-    bool autoRecalc = settings.value("autoRecalc", true).toBoll();
+    bool autoRecalc = settings.value("autoRecalc", true).toBool();
     autoRecalcAction->setChecked(autoRecalc);
 }

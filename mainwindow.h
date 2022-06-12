@@ -6,10 +6,12 @@
 #include <QLabel>
 #include "FindDialog.h"
 
+QT_BEGIN_NAMESPACE
 class QAction;
 class QLabel;
 class FindDialog;
 class Spreadsheet;
+QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -61,10 +63,32 @@ private:
 
     QMenu *fileMenu;
     QMenu *editMenu;
+    QMenu *selectSubMenu;
+    QMenu *toolsMenu;
+    QMenu *optionsMenu;
+    QMenu *helpMenu;
     QToolBar *fileToolBar;
-    QToolBar *editToolBAr;
+    QToolBar *editToolBar;
     QAction *newAction;
     QAction *openAction;
+    QAction *closeAction;
+    QAction *saveAction;
+    QAction *saveAsAction;
+    QAction *exitAction;
+    QAction *cutAction;
+    QAction *copyAction;
+    QAction *pasteAction;
+    QAction *deleteAction;
+    QAction *selectRowAction;
+    QAction *selectColumnAction;
+    QAction *selectAllAction;
+    QAction *findAction;
+    QAction *goToCellAction;
+    QAction *recalculateAction;
+    QAction *sortAction;
+    QAction *showGridAction;
+    QAction *autoRecalcAction;
+    QAction *aboutAction;
     QAction *aboutQtAction;
 }; 
 

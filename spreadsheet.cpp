@@ -1,10 +1,10 @@
-#include <QtGui>
+#include <QtWidgets>
 
 #include "cell.h"
 #include "spreadsheet.h"
 
 Spreadsheet::Spreadsheet(QWidget *parent)
-        ： QTableWidget(parent)
+        : QTableWidget(parent)
 {
     autoRecalc = true;
 
@@ -12,21 +12,21 @@ Spreadsheet::Spreadsheet(QWidget *parent)
     setSelectionMode(ContiguousSelection);
 
     connect(this, SIGNAL(itemChanged(QTableWidgetItem *)),
-            this SLOT(somethingChanged()));
+            this,SLOT(somethingChanged()));
 
     clear();
 }
 
 void Spreadsheet::clear()
 {
-    setRowcount(0);
+    setRowCount(0);
     setColumnCount(0);
     setRowCount(RowCount);
     setColumnCount(ColumnCount);
 
     for (int i = 0; i< ColumnCount; ++i){
         QTableWidgetItem *item = new QTableWidgetItem;
-        item->setText(QString (Qcar('A' + i)));
+        item->setText(QString (QChar('A' + i)));
         setHorizontalHeaderItem(i, item);
 
     }

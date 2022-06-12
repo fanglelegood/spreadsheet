@@ -1,6 +1,7 @@
 #include <QtGui>
 
 #include "sortdialog.h"
+#include "spreadsheet.h"
 
 SortDialog::SortDialog(QWidget *parent) : QDialog(parent)
 {
@@ -10,10 +11,10 @@ SortDialog::SortDialog(QWidget *parent) : QDialog(parent)
     tertiaryGroupBox->hide();
     layout()->setSizeConstraint(QLayout::SetFixedSize);
     
-    setColunmnRange('A', 'Z');
+    setColumnRange('A', 'Z');
 }
 
-void SortDialog::setColunmnRange(QChar first, QChar last)
+void SortDialog::setColumnRange(QChar first, QChar last)
 {
     primaryColumnCombo->clear();
     secondaryColumnCombo->clear();
