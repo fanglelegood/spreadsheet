@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 7.0.1, 2022-06-16T22:57:10. -->
+<!-- Written by QtCreator 7.0.1, 2022-06-17T06:23:01. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -240,8 +240,9 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/fang/Documents/chap02/Notepad/Notepad.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/fang/Documents/chap02/Notepad/Notepad.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Notepad2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/fang/Documents/qt/spreadsheet/Notepad/Notepad.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/fang/Documents/qt/spreadsheet/Notepad/Notepad.pro</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>

@@ -13,3 +13,10 @@ Notepad::~Notepad()
     delete ui;
 }
 
+
+void Notepad::on_actionNew_triggered()
+{
+    currentFile.clear();
+    ui->textEdit->setText(QString());
+}
+
