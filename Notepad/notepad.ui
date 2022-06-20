@@ -44,6 +44,16 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionCopy"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionpaste"/>
+    <addaction name="actionundo"/>
+    <addaction name="actionredo"/>
+    <addaction name="actionselectfont"/>
+    <addaction name="actionsetfontblade"/>
+    <addaction name="actionsetfontunderline"/>
+    <addaction name="actionsetfontitalic"/>
+    <addaction name="actionabout"/>
    </widget>
    <addaction name="menuNew"/>
    <addaction name="menuEdit"/>
@@ -64,6 +74,15 @@
    <addaction name="actionSave"/>
    <addaction name="actionSaveAs"/>
    <addaction name="actionPrint"/>
+   <addaction name="separator"/>
+   <addaction name="actionCopy"/>
+   <addaction name="actionCut"/>
+   <addaction name="actionpaste"/>
+   <addaction name="actionundo"/>
+   <addaction name="actionredo"/>
+   <addaction name="actionselectfont"/>
+   <addaction name="separator"/>
+   <addaction name="actionExit"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
@@ -113,10 +132,84 @@
   <action name="actionExit">
    <property name="icon">
     <iconset resource="notepad.qrc">
-     <normaloff>:/images/edit_redo.png</normaloff>:/images/edit_redo.png</iconset>
+     <normaloff>:/images/exit.png</normaloff>:/images/exit.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="icon">
+    <iconset resource="notepad.qrc">
+     <normaloff>:/images/copy.png</normaloff>:/images/copy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="icon">
+    <iconset resource="notepad.qrc">
+     <normaloff>:/images/cut.png</normaloff>:/images/cut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="actionpaste">
+   <property name="icon">
+    <iconset resource="notepad.qrc">
+     <normaloff>:/images/paste.png</normaloff>:/images/paste.png</iconset>
+   </property>
+   <property name="text">
+    <string>paste</string>
+   </property>
+  </action>
+  <action name="actionundo">
+   <property name="icon">
+    <iconset resource="notepad.qrc">
+     <normaloff>:/images/edit_undo.png</normaloff>:/images/edit_undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>undo</string>
+   </property>
+  </action>
+  <action name="actionredo">
+   <property name="icon">
+    <iconset resource="notepad.qrc">
+     <normaloff>:/images/edit_redo.png</normaloff>:/images/edit_redo.png</iconset>
+   </property>
+   <property name="text">
+    <string>redo</string>
+   </property>
+  </action>
+  <action name="actionselectfont">
+   <property name="icon">
+    <iconset resource="notepad.qrc">
+     <normaloff>:/images/font.png</normaloff>:/images/font.png</iconset>
+   </property>
+   <property name="text">
+    <string>selectfont</string>
+   </property>
+  </action>
+  <action name="actionsetfontblade">
+   <property name="text">
+    <string>setfontbold</string>
+   </property>
+  </action>
+  <action name="actionsetfontunderline">
+   <property name="text">
+    <string>setfontunderline</string>
+   </property>
+  </action>
+  <action name="actionsetfontitalic">
+   <property name="text">
+    <string>setfontitalic</string>
+   </property>
+  </action>
+  <action name="actionabout">
+   <property name="text">
+    <string>about</string>
    </property>
   </action>
  </widget>
